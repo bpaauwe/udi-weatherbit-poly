@@ -1,0 +1,21 @@
+{
+    "name": "WeatherBit Weather",
+    "docs": "http;//www.bobsplace.com/",
+    "type": "python3",
+    "executable": "weatherbit.py",
+    "install": "install.sh",
+    "install_cloud": "install_cloud.sh",
+    "description": "Add weather data to the ISY994",
+    "notice": "For testing purposes only",
+    "shortPoll": "60",
+    "longPoll": "600",
+    "profile_version": "0.0.1",
+    "credits": [ {
+	"title": "WeatherBit Weather: A node server for weather data",
+    	"author": "Bob Paauwe",
+    	"version": "0.0.1",
+    	"date": "October 20, 2019",
+    	"source": "https://github.com/bpaauwe/udi-weatherbit-poly",
+	"license": "https://github.com/bpaauwe/udi-weatherbit-poly/LICENSE"
+	} ]
+}

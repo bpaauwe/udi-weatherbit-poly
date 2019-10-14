@@ -1,0 +1,72 @@
+<editors>
+    <editor id="bool">
+        <range uom="2" subset="0,1" />
+    </editor>
+    <editor id="int">
+        <range uom="56" min="0" max="150" step="1" prec="1" />
+    </editor>
+    <editor id="TEMPERATURE">
+        <range uom="17" min="-50" max="150" step="1" prec="1" />
+        <range uom="4" min="-10" max="100" step="1" prec="1" />
+    </editor>
+    <editor id="PERCENT">
+        <range uom="22" min="0" max="100" prec="0" />
+    </editor>
+    <editor id="LUMIN">
+        <range uom="36" min="0" max="200000" prec="0" />
+    </editor>
+    <editor id="SPEED">
+        <range uom="48" min="0" max="500" prec="0" />
+        <range uom="49" min="0" max="500" prec="0" />
+    </editor>
+    <editor id="DEGREES">
+        <range uom="76" min="0" max="360" prec="0" />
+    </editor>
+    <editor id="RAIN">
+        <range uom="105" min="0" max="20000" prec="3" />
+        <range uom="82"  min="0" max="10000" prec="1" />
+    </editor>
+    <editor id="inhr">
+        <range uom="24" min="0" max="2000" prec="3" />
+    </editor>
+    <editor id="METERS">
+        <range uom="38" min="0" max="200000" prec="0" />
+    </editor>
+    <editor id="CONDITIONS">
+	    <range uom="25" subset="200,202,210-212,221,230-232,300-302,310-314,321,500-504,511,520-522,531,600-602,611,612,615,616,620-622,701,711,721,731,741,751,761,762,771,781,800-804" nls="EN_CCCONDITION" />
+    </editor>
+    <editor id="INTENSITY">
+        <range uom="25" min="0" max="4" nls="EN_INTENSITY" />
+    </editor>
+    <editor id="WEATHER">
+        <range uom="25" min="0" max="33" nls="EN_WEATHER" />
+    </editor>
+    <editor id="COVERAGE">
+        <range uom="25" min="0" max="16" nls="EN_COVERAGE" />
+    </editor>
+    <editor id="PRESSURE">
+        <range uom="23" min="0" max="100" prec="0" />
+        <range uom="117" min="1000" max="2000" prec="0" />
+        <range uom="118" min="1000" max="2000" prec="0" />
+    </editor>
+    <editor id="UV">
+        <range uom="71" min="0" max="15" prec="1" />
+    </editor>
+    <editor id="OZONE">
+        <range uom="56" min="0" max="500" prec="2" />
+    </editor>
+    <editor id="AQI">
+        <range uom="56" min="0" max="500" prec="0" />
+    </editor>
+    <editor id="DAY">
+        <range uom="25" min="0" max="6" nls="EN_DAY" />
+    </editor>
+    <editor id="ET">
+        <range uom="106" min="0" max="100" prec="2" />
+    </editor>
+    <editor id="DISTANCE">
+        <range uom="116" min="0" max="500" prec="2" />
+        <range uom="83"  min="0" max="10000" prec="1" />
+    </editor>
+
+</editors>

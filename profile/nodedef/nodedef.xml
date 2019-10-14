@@ -1,0 +1,60 @@
+<nodeDefs>
+  <nodeDef id="weather" nodeType="139" nls="ctl">
+    <editors />
+    <sts>
+      <st id="ST" editor="bool" />
+      <st id="CLITEMP" editor="TEMPERATURE" />
+      <st id="CLIHUM" editor="PERCENT" />
+      <st id="DEWPT" editor="TEMPERATURE" />
+      <st id="BARPRES" editor="PRESSURE" />
+      <st id="WINDDIR" editor="DEGREES" />
+      <st id="GV4" editor="SPEED" />
+      <st id="GV15" editor="DISTANCE" />
+      <st id="GV13" editor="CONDITIONS" />
+      <st id="GV14" editor="PERCENT" />
+      <st id="GV2" editor="TEMERATURE" />
+      <st id="GV6" editor="RAIN" />
+      <st id="SOLRAD" editor="SOLARRAD" />
+      <st id="GV10" editor="DISTANCE" />
+      <st id="GV16" editor="UV" />
+      <st id="GV17" editor="AQI" />
+    </sts>
+    <cmds>
+      <sends />
+      <accepts>
+        <cmd id="DISCOVER" />
+        <cmd id="REMOVE_NOTICES_ALL" />
+        <cmd id="UPDATE_PROFILE" />
+      </accepts>
+    </cmds>
+  </nodeDef>
+
+  <nodeDef id="daily" nodeType="139" nls="ctl">
+    <editors />
+    <sts>
+      <st id="GV19" editor="DAY" />
+      <st id="GV0" editor="TEMPERATURE" />
+      <st id="GV1" editor="TEMPERATURE" />
+      <st id="CLIHUM" editor="PERCENT" />
+      <st id="BARPRES" editor="PRESSURE" />
+      <st id="GV11" editor="COVERAGE" />
+      <st id="GV12" editor="INTENSITY" />
+      <st id="GV13" editor="WEATHER" />
+      <st id="GV14" editor="PERCENT" />
+      <st id="GV4" editor="SPEED" />
+      <st id="GV5" editor="SPEED" />
+      <st id="GV6" editor="RAIN" />
+      <st id="GV7" editor="SPEED" />
+      <st id="GV8" editor="SPEED" />
+      <st id="GV18" editor="PERCENT" />
+      <st id="GV16" editor="UV" />
+      <st id="GV20" editor="ET" />
+    </sts>
+    <cmds>
+      <sends />
+      <accepts>
+      </accepts>
+    </cmds>
+  </nodeDef>
+
+</nodeDefs>
