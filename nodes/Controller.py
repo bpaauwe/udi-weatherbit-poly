@@ -16,7 +16,7 @@ import socket
 import math
 import re
 import json
-import weatherbit_daily
+from nodes import weatherbit_daily
 
 LOGGER = polyinterface.LOGGER
 

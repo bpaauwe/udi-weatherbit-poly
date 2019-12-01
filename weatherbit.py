@@ -9,7 +9,7 @@ try:
     import polyinterface
 except ImportError:
     import pgc_interface as polyinterface
-from nodes import controller
+from nodes import Controller
 from nodes import weatherbit_daily
 
 LOGGER = polyinterface.LOGGER
