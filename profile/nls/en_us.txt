@@ -33,6 +33,14 @@ ST-ctl-GV17-NAME = Air Quality
 ST-ctl-GV18-NAME = Chance of Rain
 ST-ctl-GV19-NAME = Day
 ST-ctl-GV20-NAME = Evapotranspiration
+ST-ctl-GV21-NAME = Debug Level
+
+DBG-0 = Off
+DBG-10 = Debug
+DBG-20 = Info
+DBG-30 = Warning
+DBG-40 = Error
+DBG-50 = Critical
 
 ND-daily-NAME = Daily Forecast
 ND-daily-ICON = Weather

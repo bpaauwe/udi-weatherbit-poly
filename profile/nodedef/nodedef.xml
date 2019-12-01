@@ -18,6 +18,7 @@
       <st id="GV10" editor="DISTANCE" />
       <st id="GV16" editor="UV" />
       <st id="GV17" editor="AQI" />
+	  <st id="GV21" editor="DEBUG" />
     </sts>
     <cmds>
       <sends />
@@ -25,6 +26,9 @@
         <cmd id="DISCOVER" />
         <cmd id="REMOVE_NOTICES_ALL" />
         <cmd id="UPDATE_PROFILE" />
+		<cmd id="DEBUG">
+			<p id="" editor="DEBUG" init="GV21"/>
+		</cmd>
       </accepts>
     </cmds>
   </nodeDef>
