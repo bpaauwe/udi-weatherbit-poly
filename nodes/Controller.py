@@ -48,6 +48,8 @@ class Controller(polyinterface.Controller):
 
     # Process changes to customParameters
     def process_config(self, config):
+        typedConfig = config.get('typedCustomData')
+        LOGGER.debug(typedConfig)
         if 'customParams' in config:
             # Check if anything we care about was changed...
             if config['customParams'] != self.myConfig:
@@ -329,6 +331,10 @@ class Controller(polyinterface.Controller):
 
     def get_typed_name(self, name):
         typedConfig = self.polyConfig.get('typedCustomData')
+        # typedParams is a list of dicts. What we need is a dict of
+        # name/ value pairs
+        LOGGER.debug('typedCustomData is:')
+        LOGGER.debug(typedConfig)
         if not typedConfig:
             return None
         return typedConfig.get(name)
@@ -338,24 +344,22 @@ class Controller(polyinterface.Controller):
         # NEW code, try this:
         self.removeNoticesAll()
         custom_params = self.polyConfig['customParams']
-        params = [
-                {
+        params = {
                     'name': 'weatherbit',
                     'title': 'Weather Bit Configuration',
                     'desc': 'Weather data from Weather Bit service',
-                    'isList': False,
                     'params': [
-                        {
-                            'name': 'location',
-                            'title': 'Location',
-                            'desc': 'Location to use for data query',
-                            'defaultValue': '',
-                            'isRequired': True,
-                        },
                         {
                             'name': 'apiKey',
                             'title': 'APIkey',
                             'desc': 'API key from WeatherBit.io',
+                            'defaultValue': '',
+                            'isRequired': True,
+                        },
+                        {
+                            'name': 'location',
+                            'title': 'Location',
+                            'desc': 'Location to use for data query',
                             'defaultValue': '',
                             'isRequired': True,
                         },
@@ -388,8 +392,7 @@ class Controller(polyinterface.Controller):
                             'isRequired': True,
                         },
                     ]
-                },
-            ]
+                }
         self.poly.save_typed_params(params)
 
         self.configured = True
@@ -399,6 +402,7 @@ class Controller(polyinterface.Controller):
             self.configured = False
 
         # TODO: How do we access the parameters in self.weatherbit?
+        LOGGER.debug('Our weatherbit custom parameters looks like:')
         LOGGER.debug(self.weatherbit)
 
         """
