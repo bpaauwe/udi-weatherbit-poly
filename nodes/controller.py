@@ -354,7 +354,7 @@ class Controller(polyinterface.Controller):
                         {
                             'name': 'APIkey',
                             'title': 'APIkey',
-                            'desc': 'API key from WeatherBit.io'
+                            'desc': 'API key from WeatherBit.io',
                             'isRequired': True,
                         },
                         {
