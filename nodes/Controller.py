@@ -341,37 +341,40 @@ class Controller(polyinterface.Controller):
         params = [
                 {
                     'name': 'weatherbit',
-                    'title': 'Weather Bit',
+                    'title': 'Weather Bit Configuration',
                     'desc': 'Weather data from Weather Bit service',
                     'isList': False,
                     'params': [
                         {
-                            'name': 'Location',
+                            'name': 'location',
                             'title': 'Location',
                             'desc': 'Location to use for data query',
+                            'defaultValue': '',
                             'isRequired': True,
                         },
                         {
-                            'name': 'APIkey',
+                            'name': 'apiKey',
                             'title': 'APIkey',
                             'desc': 'API key from WeatherBit.io',
+                            'defaultValue': '',
                             'isRequired': True,
                         },
                         {
-                            'name': 'Elevation',
+                            'name': 'elevation',
                             'title': 'Elevation',
                             'desc': 'Height of location above sea level, in meters',
+                            'defaultValue': '0',
                             'isRequired': True,
                         },
                         {
-                            'name': 'Units',
+                            'name': 'units',
                             'title': 'Units',
                             'desc': 'Imperial or metric for data display',
                             'defaultValue': 'metric',
                             'isRequired': True,
                         },
                         {
-                            'name': 'Plant Type',
+                            'name': 'plant_type',
                             'title': 'Plant Type',
                             'desc': 'Plant type coefficient used for ETo calculations.',
                             'defaultValue': '.26',
