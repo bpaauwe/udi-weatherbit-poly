@@ -377,15 +377,25 @@ class Controller(polyinterface.Controller):
                             'defaultValue': '.26',
                             'isRequired': True,
                         },
+                        {
+                            'name': 'language',
+                            'title': 'Language',
+                            'desc': 'Language to use when reporting data.',
+                            'defaultValue': 'en',
+                            'isRequired': True,
+                        },
                     ]
                 },
             ]
         self.poly.save_typed_params(params)
 
+        self.configured = True
         self.weatherbit = self.get_typed_name('weatherbit')
         if self.weatherbit is None or len(self.weatherbit) == 0:
             self.addNotice("Please configure nodeserver", 'config')
+            self.configured = False
 
+        # TODO: How do we access the parameters in self.weatherbit?
         LOGGER.debug(self.weatherbit)
 
         """
