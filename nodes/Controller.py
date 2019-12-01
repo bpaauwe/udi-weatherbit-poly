@@ -168,27 +168,26 @@ class Controller(polyinterface.Controller):
         # By default JSON is returned
 
         # TODO: should this be changed to use requests instead of urllib?
+        if self.weatherbit is None or len(self.weatherbit) == 0:
+            LOGGER.warning('Not yet configured, skipping query.')
+            return
 
         request = 'http://api.weatherbit.io/v2.0/current'
         # if location looks like a zip code, treat it as such for backwards
         # compatibility
         # TODO: handle location entries properly
-        if re.fullmatch(r'\d\d\d\d\d,..', self.location) != None:
-            request += '?' + self.location
-        elif re.fullmatch(r'\d\d\d\d\d', self.location) != None:
-            request += '?' + self.location
+        if re.fullmatch(r'\d\d\d\d\d,..', self.weatherbit['location']) != None:
+            request += '?' + self.weatherbit['location']
+        elif re.fullmatch(r'\d\d\d\d\d', self.weatherbit['location']) != None:
+            request += '?' + self.weatherbit['location']
         else:
-            request += '?' + self.location
+            request += '?' + self.weatherbit['location']
 
-        request += '&key=' + self.apikey
+        request += '&key=' + self.weatherbit['apikey']
         request += '&lang=' + self.language
         request += '&units' + self.units
 
         LOGGER.debug('request = %s' % request)
-
-        if not self.configured:
-            LOGGER.info('Skipping connection because we aren\'t configured yet.')
-            return
 
         c = requests.get(request)
         jdata = c.json()
@@ -237,12 +236,12 @@ class Controller(polyinterface.Controller):
         # if location looks like a zip code, treat it as such for backwards
         # compatibility
         # TODO: handle location entries properly
-        if re.fullmatch(r'\d\d\d\d\d,..', self.location) != None:
-            request += self.location
-        elif re.fullmatch(r'\d\d\d\d\d', self.location) != None:
-            request += self.location
+        if re.fullmatch(r'\d\d\d\d\d,..', self.weatherbit['location']) != None:
+            request += self.weatherbit['location']
+        elif re.fullmatch(r'\d\d\d\d\d', self.weatherbit['location']) != None:
+            request += self.weatherbit['location']
         else:
-            request += self.location
+            request += self.weatherbit['location']
 
         request += '?client_id=JGlB9OD1KA1EvzoSkpBmJ'
         request += '&client_secret=xiZGRDGO61ZP2YZH1YDwVB6tuDMX4Zx3o9yeXDyI'
@@ -304,7 +303,7 @@ class Controller(polyinterface.Controller):
                 #LOGGER.info(self.fcast)
                 # Update the forecast
                 address = 'forecast_' + str(day)
-                self.nodes[address].update_forecast(self.fcast, self.latitude, self.elevation, self.plant_type, self.units)
+                self.nodes[address].update_forecast(self.fcast, self.latitude, self.elevation, self.weatherbit['plant_type'], self.units)
                 day += 1
 
 
@@ -343,7 +342,7 @@ class Controller(polyinterface.Controller):
                     'name': 'weatherbit',
                     'title': 'Weather Bit',
                     'desc': 'Weather data from Weather Bit service',
-                    'isList': True,
+                    'isList': False,
                     'params': [
                         {
                             'name': 'Location',
