@@ -13,6 +13,8 @@
 
 """
 
+import polyinterface
+
 LOGGER = polyinterface.LOGGER
 
 class NSParameters:
@@ -82,7 +84,7 @@ class NSParameters:
         if 'customParams' in config:
             for p in self.internal:
                 if p['name'] in config['customParams']:
-                    if config['customparams'][p['name']] != p['default']:
+                    if config['customParams'][p['name']] != p['default']:
                         p['value'] = config['customParams'][p['name']]
                         p['isSet'] = True
 

@@ -76,6 +76,9 @@ class Controller(polyinterface.Controller):
 
     # Process changes to customParameters
     def process_config(self, config):
+        if not self.params.update_from_polyglot(config):
+            LOGGER.debug('-- configuration not yet valid')
+        """
         if 'customParams' in config:
             # Check if anything we care about was changed...
             if config['customParams'] != self.myConfig:
@@ -120,6 +123,7 @@ class Controller(polyinterface.Controller):
                     if self.apikey == '':
                         self.addNotice("WeatherBit API ID must be set");
                         self.configured = False
+        """
 
     def start(self):
         LOGGER.info('Starting node server')
@@ -209,7 +213,7 @@ class Controller(polyinterface.Controller):
 
         request += '&key=' + self.params.get('APIkey')
         request += '&lang=' + self.params.get('Language')
-        request += '&units' + self.units
+        request += '&units=' + self.units
 
         LOGGER.debug('request = %s' % request)
 
