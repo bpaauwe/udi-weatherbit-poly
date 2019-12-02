@@ -66,7 +66,7 @@ class Controller(polyinterface.Controller):
             'isRequired': False,
             },
             {
-            'name': 'Languagae',
+            'name': 'Language',
             'default': 'en',
             'isRequired': False,
             },

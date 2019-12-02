@@ -13,6 +13,8 @@
 
 """
 
+LOGGER = polyinterface.LOGGER
+
 class NSParameters:
     def __init__(self, parameters):
         self.internal = []
@@ -52,9 +54,12 @@ class NSParameters:
         params = {}
 
         for p in self.internal:
+            LOGGER.debug('checking for ' + p['name'] + ' in customParams')
             if p['name'] in customParams:
+                LOGGER.debug('found ' + p['name'] + ' in customParams')
                 p['value'] = customParams[p['name']]
                 if p['value'] != p['default']:
+                    LOGGER.debug(p['name'] + ' is now set')
                     p['isSet'] = True
             
             if p['isSet']:
