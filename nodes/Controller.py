@@ -432,6 +432,7 @@ class Controller(polyinterface.Controller):
             self.uom['GV14'] = 22     # cloud conditions
             self.uom['GV15'] = 83     # visibility
             self.uom['GV16'] = 71     # UV index
+            self.uom['GV17'] = 56     # Air Quality
             self.uom['SOLRAD'] = 74   # solar radiation
 
             for day in range(1,12):
@@ -456,6 +457,7 @@ class Controller(polyinterface.Controller):
             self.uom['GV14'] = 22     # cloud conditions
             self.uom['GV15'] = 116    # visibility
             self.uom['GV16'] = 71     # UV index
+            self.uom['GV17'] = 56     # Air Quality
             self.uom['SOLRAD'] = 74   # solar radiation
 
             for day in range(1,12):
@@ -501,6 +503,7 @@ class Controller(polyinterface.Controller):
             {'driver': 'GV13', 'value': 0, 'uom': 25},     # climate conditions
             {'driver': 'GV14', 'value': 0, 'uom': 22},     # cloud conditions
             {'driver': 'GV15', 'value': 0, 'uom': 83},     # visibility
+            {'driver': 'GV17', 'value': 0, 'uom': 56},     # air quality
             {'driver': 'SOLRAD', 'value': 0, 'uom': 71},   # solar radiataion
             ]
 
