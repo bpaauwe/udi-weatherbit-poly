@@ -78,6 +78,8 @@ class Controller(polyinterface.Controller):
     def process_config(self, config):
         if not self.params.update_from_polyglot(config):
             LOGGER.debug('-- configuration not yet valid')
+        else:
+            LOGGER.debug('-- configuration is valid')
         """
         if 'customParams' in config:
             # Check if anything we care about was changed...
@@ -139,7 +141,7 @@ class Controller(polyinterface.Controller):
         self.tag['dewpoint'] = 'dewpt'
         #self.tag['heatindex'] = 'heatindexC'
         #self.tag['windchill'] = 'windchillC'
-        #self.tag['feelslike'] = 'app_temp'
+        self.tag['feelslike'] = 'app_temp'
         self.tag['solarrad'] = 'solar_rad'
         #self.tag['temp_max'] = 'maxTempC'
         #self.tag['temp_min'] = 'minTempC'
