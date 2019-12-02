@@ -18,6 +18,7 @@ import re
 import json
 from nodes import weatherbit_daily
 from weather_funcs import *
+import ns_parameters
 
 LOGGER = polyinterface.LOGGER
 
@@ -44,12 +45,37 @@ class Controller(polyinterface.Controller):
         self.uom = {}
         self.tag = {}
 
+        self.params = ns_parameters.NSParameters([{
+            'name': 'APIkey',
+            'default': 'set me',
+            'isRequired': True,
+            },
+            {
+            'name': 'Location',
+            'default': 'set me',
+            'isRequired': True,
+            },
+            {
+            'name': 'Elevation',
+            'default': '0',
+            'isRequired': True,
+            },
+            {
+            'name': 'Plant Type',
+            'default': '0.26',
+            'isRequired': False,
+            },
+            {
+            'name': 'Languagae',
+            'default': 'en',
+            'isRequired': False,
+            },
+            ])
+
         self.poly.onConfig(self.process_config)
 
     # Process changes to customParameters
     def process_config(self, config):
-        typedConfig = config.get('typedCustomData')
-        LOGGER.debug(typedConfig)
         if 'customParams' in config:
             # Check if anything we care about was changed...
             if config['customParams'] != self.myConfig:
@@ -170,24 +196,19 @@ class Controller(polyinterface.Controller):
         #
         # By default JSON is returned
 
-        # TODO: should this be changed to use requests instead of urllib?
-        if self.weatherbit is None or len(self.weatherbit) == 0:
-            LOGGER.warning('Not yet configured, skipping query.')
-            return
-
         request = 'http://api.weatherbit.io/v2.0/current'
         # if location looks like a zip code, treat it as such for backwards
         # compatibility
         # TODO: handle location entries properly
-        if re.fullmatch(r'\d\d\d\d\d,..', self.weatherbit['location']) != None:
-            request += '?' + self.weatherbit['location']
-        elif re.fullmatch(r'\d\d\d\d\d', self.weatherbit['location']) != None:
-            request += '?' + self.weatherbit['location']
+        if re.fullmatch(r'\d\d\d\d\d,..', self.params.get('Location')) != None:
+            request += '?' + self.params.get('Location')
+        elif re.fullmatch(r'\d\d\d\d\d', self.params.get('Location')) != None:
+            request += '?' + self.params.get('Location')
         else:
-            request += '?' + self.weatherbit['location']
+            request += '?' + self.params.get('Location')
 
-        request += '&key=' + self.weatherbit['apikey']
-        request += '&lang=' + self.language
+        request += '&key=' + self.params.get('APIkey')
+        request += '&lang=' + self.params.get('Language')
         request += '&units' + self.units
 
         LOGGER.debug('request = %s' % request)
@@ -239,12 +260,12 @@ class Controller(polyinterface.Controller):
         # if location looks like a zip code, treat it as such for backwards
         # compatibility
         # TODO: handle location entries properly
-        if re.fullmatch(r'\d\d\d\d\d,..', self.weatherbit['location']) != None:
-            request += self.weatherbit['location']
-        elif re.fullmatch(r'\d\d\d\d\d', self.weatherbit['location']) != None:
-            request += self.weatherbit['location']
+        if re.fullmatch(r'\d\d\d\d\d,..', self.params.get('Location')) != None:
+            request += self.params.get('location')
+        elif re.fullmatch(r'\d\d\d\d\d', self.params.get('location')) != None:
+            request += self.params.get('location')
         else:
-            request += self.weatherbit['location']
+            request += self.params.get('location')
 
         request += '?client_id=JGlB9OD1KA1EvzoSkpBmJ'
         request += '&client_secret=xiZGRDGO61ZP2YZH1YDwVB6tuDMX4Zx3o9yeXDyI'
@@ -329,84 +350,20 @@ class Controller(polyinterface.Controller):
         st = self.poly.installprofile()
         return st
 
-    def get_typed_name(self, name):
-        typedConfig = self.polyConfig.get('typedCustomData')
-        # typedParams is a list of dicts. What we need is a dict of
-        # name/ value pairs
-        LOGGER.debug('typedCustomData is:')
-        LOGGER.debug(typedConfig)
-        if not typedConfig:
-            return None
-        return typedConfig.get(name)
-
     def check_params(self):
 
         # NEW code, try this:
         self.removeNoticesAll()
-        custom_params = self.polyConfig['customParams']
-        params = {
-                    'name': 'weatherbit',
-                    'title': 'Weather Bit Configuration',
-                    'desc': 'Weather data from Weather Bit service',
-                    'params': [
-                        {
-                            'name': 'apiKey',
-                            'title': 'APIkey',
-                            'desc': 'API key from WeatherBit.io',
-                            'defaultValue': '',
-                            'isRequired': True,
-                        },
-                        {
-                            'name': 'location',
-                            'title': 'Location',
-                            'desc': 'Location to use for data query',
-                            'defaultValue': '',
-                            'isRequired': True,
-                        },
-                        {
-                            'name': 'elevation',
-                            'title': 'Elevation',
-                            'desc': 'Height of location above sea level, in meters',
-                            'defaultValue': '0',
-                            'isRequired': True,
-                        },
-                        {
-                            'name': 'units',
-                            'title': 'Units',
-                            'desc': 'Imperial or metric for data display',
-                            'defaultValue': 'metric',
-                            'isRequired': True,
-                        },
-                        {
-                            'name': 'plant_type',
-                            'title': 'Plant Type',
-                            'desc': 'Plant type coefficient used for ETo calculations.',
-                            'defaultValue': '.26',
-                            'isRequired': True,
-                        },
-                        {
-                            'name': 'language',
-                            'title': 'Language',
-                            'desc': 'Language to use when reporting data.',
-                            'defaultValue': 'en',
-                            'isRequired': True,
-                        },
-                    ]
-                }
-        self.poly.save_typed_params(params)
 
-        self.configured = True
-        self.weatherbit = self.get_typed_name('weatherbit')
-        if self.weatherbit is None or len(self.weatherbit) == 0:
-            self.addNotice("Please configure nodeserver", 'config')
-            self.configured = False
-
-        # TODO: How do we access the parameters in self.weatherbit?
-        LOGGER.debug('Our weatherbit custom parameters looks like:')
-        LOGGER.debug(self.weatherbit)
+        if self.params.get_from_polyglot(self):
+            LOGGER.debug('All required parameters are set!')
+        else:
+            LOGGER.debug('Configuration required.')
+            LOGGER.debug('apikey = ' + self.params.get('APIkey'))
+            LOGGER.debug('location = ' + self.params.get('Location'))
 
         """
-
+        custom_params = self.polyConfig['customParams']
 
         if 'Location' in self.polyConfig['customParams']:
             self.location = self.polyConfig['customParams']['Location']
@@ -433,6 +390,7 @@ class Controller(polyinterface.Controller):
             'Elevation': self.elevation,
             'Plant Type': self.plant_type,
             'Language': self.language} )
+        """
 
         LOGGER.info('api id = %s' % self.apikey)
 
@@ -443,7 +401,6 @@ class Controller(polyinterface.Controller):
         if self.apikey == '':
             self.addNotice("WeatherBit API ID must be set");
             self.configured = False
-        """
 
         self.set_driver_uom(self.units)
 
