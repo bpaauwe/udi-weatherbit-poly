@@ -138,6 +138,10 @@ class Controller(polyinterface.Controller):
 
         LOGGER.debug('request = %s' % request)
 
+        if not self.configured:
+            LOGGER.info('Skipping connection because we aren\'t configured yet.')
+            return
+
         c = requests.get(request)
         jdata = c.json()
         c.close()

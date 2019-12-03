@@ -105,11 +105,15 @@ class NSParameters:
         if 'customParams' in config:
             for p in self.internal:
                 if p['name'] in config['customParams']:
+                    poly_param = config['customParams'][p['name']]
+
                     # did it change?
-                    if p['value'] != config['customParams'][p['name']]:
+                    if poly_param != p['default'] and poly_param != p['value']:
                         changed = True
-                    if config['customParams'][p['name']] != p['default']:
-                        p['value'] = config['customParams'][p['name']]
+
+                    # is it different from the default?
+                    if poly_param != p['default']:
+                        p['value'] = poly_param
                         p['isSet'] = True
 
         for p in self.internal:
