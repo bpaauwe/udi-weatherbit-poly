@@ -4,6 +4,7 @@ ND-weather-ICON = Weather
 CMD-ctl-DISCOVER-NAME = Re-Discover
 CMD-ctl-UPDATE_PROFILE-NAME = Update Profile
 CMD-ctl-REMOVE_NOTICES_ALL-NAME = Remove Notices
+CMD-ctl-DEBUG-NAME = Log Level
 ST-ctl-ST-NAME = NodeServer Online
 ST-ctl-CLITEMP-NAME = Temperature
 ST-ctl-CLIHUM-NAME = Humidity
