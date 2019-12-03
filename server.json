@@ -1,5 +1,5 @@
 {
-    "name": "WeatherBit Weather",
+    "name": "WeatherBit.io",
     "docs": "http;//www.bobsplace.com/",
     "type": "python3",
     "executable": "weatherbit.py",
