@@ -59,7 +59,7 @@ class NSParameters:
         for p in self.internal:
             if not p['isSet'] and p['isRequired']:
                 if p['notice_msg'] is not None:
-                    poly.addNotice(p['notice_msg'], 'config')
+                    poly.addNotice(p['notice_msg'], p['name'])
 
     """
         Read paramenters from Polyglot and update values appropriately.
