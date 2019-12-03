@@ -75,13 +75,19 @@ class Controller(polyinterface.Controller):
 
     # Process changes to customParameters
     def process_config(self, config):
-        if not self.params.update_from_polyglot(config):
+        (valid, changed) = self.params.update_from_polyglot(config)
+        if changed and not valid:
             LOGGER.debug('-- configuration not yet valid')
-            #self.removeNoticesAll()
-            #self.params.send_notices(self)
-        else:
-            self.configured = True
+            self.removeNoticesAll()
+            self.params.send_notices(self)
+        elif changed and valid:
             LOGGER.debug('-- configuration is valid')
+            self.removeNoticesAll()
+            self.configured = True
+        elif valid:
+            LOGGER.debug('-- configuration not changaed, but is valid')
+            # is this necessary
+            #self.configured = True
 
     def start(self):
         LOGGER.info('Starting node server')

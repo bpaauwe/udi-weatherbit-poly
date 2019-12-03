@@ -95,18 +95,27 @@ class NSParameters:
 
     """
         Called from process_config to check for configuration change
+        We need to know two things; 1) did the configuration change and
+        2) are all required fields filled in.
     """
     def update_from_polyglot(self, config):
+        changed = False
+        vaid = True
+
         if 'customParams' in config:
             for p in self.internal:
                 if p['name'] in config['customParams']:
+                    # did it change?
+                    if p['value'] != config['customParams'][p['name']]:
+                        changed = True
                     if config['customParams'][p['name']] != p['default']:
                         p['value'] = config['customParams'][p['name']]
                         p['isSet'] = True
 
         for p in self.internal:
             if not p['isSet'] and p['isRequired']:
-                return False
-        return True
+                valid = False
+
+        return (valid, changed)
 
 
