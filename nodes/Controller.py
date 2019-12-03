@@ -77,8 +77,8 @@ class Controller(polyinterface.Controller):
     def process_config(self, config):
         if not self.params.update_from_polyglot(config):
             LOGGER.debug('-- configuration not yet valid')
-            self.removeNoticesAll()
-            self.params.send_notices(self)
+            #self.removeNoticesAll()
+            #self.params.send_notices(self)
         else:
             self.configured = True
             LOGGER.debug('-- configuration is valid')
