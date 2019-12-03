@@ -5,9 +5,13 @@
     [
         {'name': name of parameter,
          'default': default value of parameter,
+         'notice': 'string to send notice if not set',
+         'isRequired: True/False,
         },
         {'name': name of parameter,
          'default': default value of parameter,
+         'notice': 'string to send notice if not set',
+         'isRequired: True/False,
         },
     ]
 
@@ -28,6 +32,7 @@ class NSParameters:
                 'default': p['default'],
                 'isSet': False,
                 'isRequired': p['isRequired'],
+                'notice_msg': p['notice'],
                 })
 
     def set(self, name, value):
@@ -44,6 +49,17 @@ class NSParameters:
                     return p['value']
                 else:
                     return p['default']
+
+
+    """
+        Send notices for unconfigured parameters that are are marked
+        as required.
+    """
+    def send_notices(self, poly):
+        for p in self.internal:
+            if not p['isSet'] and p['isRequired']:
+                if p['notice_msg'] is not None:
+                    poly.addNotice(p['notice_msg'], 'config')
 
     """
         Read paramenters from Polyglot and update values appropriately.
