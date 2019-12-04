@@ -10,7 +10,8 @@ except ImportError:
 import json
 import time
 import datetime
-from weather_funcs import *
+from weather_funcs import weather_codes
+from weather_funcs import et3
 
 LOGGER = polyinterface.LOGGER
 
