@@ -24,6 +24,9 @@ def w2mj (watt):  # watts/m2 to megajoul/m2
 def mph2ms (mph): # MPH to m/s
     return mph * 0.477
 
+def kph2ms (kph): # KPH to m/s
+    return kph * 0.277778
+
 def deg2rad(deg):
     return math.pi / 180 * deg
 
