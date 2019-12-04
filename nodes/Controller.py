@@ -96,7 +96,6 @@ class Controller(polyinterface.Controller):
             LOGGER.debug('-- configuration is valid')
             self.removeNoticesAll()
             self.configured = True
-            self.set_driver_uom(self.params.get('Units'))
             if self.params.isSet('Forecast Days'):
                 self.discover()
         elif valid:
@@ -300,6 +299,8 @@ class Controller(polyinterface.Controller):
             except:
                 LOGGER.error('Failed to create forecast node ' + title)
 
+        self.set_driver_uom(self.params.get('Units'))
+
 
     # Delete the node server from Polyglot
     def delete(self):
@@ -320,7 +321,6 @@ class Controller(polyinterface.Controller):
         if self.params.get_from_polyglot(self):
             LOGGER.debug('All required parameters are set!')
             self.configured = True
-            self.set_driver_uom(self.params.get('Units'))
             if int(self.params.get('Forecast Days')) > 16:
                 addNotice('Number of days of forecast data limited to 16 days', 'forecast')
                 self.params.set('Forcast Days', 16)
