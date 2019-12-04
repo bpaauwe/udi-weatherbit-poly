@@ -58,6 +58,12 @@ class Controller(polyinterface.Controller):
             'notice': '',
             },
             {
+            'name': 'Units',
+            'default': 'M',
+            'isRequired': False,
+            'notice': '',
+            },
+            {
             'name': 'Plant Type',
             'default': '0.23',
             'isRequired': False,
@@ -84,6 +90,7 @@ class Controller(polyinterface.Controller):
             LOGGER.debug('-- configuration is valid')
             self.removeNoticesAll()
             self.configured = True
+            self.set_driver_uom(self.params.get('Units'))
         elif valid:
             LOGGER.debug('-- configuration not changaed, but is valid')
             # is this necessary
@@ -296,6 +303,7 @@ class Controller(polyinterface.Controller):
         if self.params.get_from_polyglot(self):
             LOGGER.debug('All required parameters are set!')
             self.configured = True
+            self.set_driver_uom(self.params.get('Units'))
         else:
             LOGGER.debug('Configuration required.')
             LOGGER.debug('apikey = ' + self.params.get('APIkey'))
