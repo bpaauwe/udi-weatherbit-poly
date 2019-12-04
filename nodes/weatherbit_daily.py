@@ -134,5 +134,5 @@ class DailyNode(polyinterface.Node):
             Ws = et3.kph2ms(Ws)
 
         et0 = et3.evapotranspriation(Tmax, Tmin, None, Ws, float(elevation), forecast['rh'], forecast['rh'], latitude, float(plant_type), J)
-        update_driver('GV20', round(et0, 2))
+        self.update_driver('GV20', round(et0, 2))
         LOGGER.info("ETo = %f %f" % (et0, self.mm2inch(et0)))

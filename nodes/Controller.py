@@ -220,7 +220,7 @@ class Controller(polyinterface.Controller):
         for f_obs in jdata['data']:
             LOGGER.debug('forecast for date ' + f_obs['valid_date'])
             address = 'forecast_' + str(day)
-            self.nodes[address].update_forecast(f_obs, float(self.params.get('Elevation')), float(self.params.get('Plant Type')), jdata['lat'])
+            self.nodes[address].update_forecast(f_obs, float(self.params.get('Elevation')), float(self.params.get('Plant Type')), float(jdata['lat']))
             day += 1
 
 
