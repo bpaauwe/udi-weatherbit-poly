@@ -1,3 +1,5 @@
+class codes:
+    @staticmethod
     def weather_codes(self, code):
         code_map = {
                 'A': 0,   # hail
@@ -41,6 +43,7 @@
 
         return 22
 
+    @staticmethod
     def intensity_codes(self, code):
         code_map = {
                 'VL': 1,  # very light
@@ -52,6 +55,7 @@
             return code_map[code]
         return 0  # moderate
 
+    @staticmethod
     def coverage_codes(self, code):
         code_map = {
                 'AR': 0,  # areas of
