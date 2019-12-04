@@ -57,6 +57,7 @@ class DailyNode(polyinterface.Node):
 
     def set_driver_uom(self, units):
         if units == 'metric':
+            self.units = 'metric'
             self.uom['BARPRES'] = 117
             self.uom['GV0'] = 4
             self.uom['GV1'] = 4
@@ -68,6 +69,7 @@ class DailyNode(polyinterface.Node):
             self.uom['GV8'] = 49
             self.uom['GV20'] = 107
         elif units == 'imperial':
+            self.units = 'imperial'
             self.uom['BARPRES'] = 23
             self.uom['GV0'] = 17
             self.uom['GV1'] = 17
@@ -84,61 +86,45 @@ class DailyNode(polyinterface.Node):
         return mm/25.4
 
 
-    '''
-        self.fcast['temp_max']
-        self.fcast['temp_min']
-        self.fcast['Hmax']
-        self.fcast['Hmin']
-        self.fcast['pressure']
-        self.fcast['speed']
-        self.fcast['speed_max']
-        self.fcast['speed_min']
-        self.fcast['gust']
-        self.fcast['gust_max']
-        self.fcast['gust_min']
-        self.fcast['dir']
-        self.fcast['dir_max']
-        self.fcast['dir_min']
-        self.fcast['timestamp']
-        self.fcast['pop']
-        self.fcast['precip']
-        self.fcast['uv']
-        self.fcast['clouds']
-    '''
-    def update_forecast(self, forecast, latitude, elevation, plant_type, units):
+    def update_driver(self, driver, value):
+        try:
+            self.setDriver(driver, value, True, False, self.uom[driver])
+        except:
+            LOGGER.debug('Failed to set driver ' + driver + ' to value ' + value)
 
-        epoch = int(forecast['timestamp'])
+    '''
+    '''
+    def update_forecast(self, forecast, elevation, plant_type, latitude):
+
+        epoch = int(forecast['ts'])
         dow = time.strftime("%w", time.gmtime(epoch))
         LOGGER.info('Day of week = ' + dow)
 
-        humidity = (forecast['Hmin'] + forecast['Hmax']) / 2
-        self.setDriver('CLIHUM', round(humidity, 0), True, False, self.uom['CLIHUM'])
-        self.setDriver('BARPRES', round(forecast['pressure'], 1), True, False, self.uom['BARPRES'])
-        self.setDriver('GV0', round(forecast['temp_max'], 1), True, False, self.uom['GV0'])
-        self.setDriver('GV1', round(forecast['temp_min'], 1), True, False, self.uom['GV1'])
-        self.setDriver('GV14', round(forecast['clouds'], 0), True, False, self.uom['GV14'])
-        self.setDriver('GV4', round(forecast['speed'], 1), True, False, self.uom['GV4'])
-        self.setDriver('GV5', round(forecast['gust'], 1), True, False, self.uom['GV5'])
-        self.setDriver('GV6', round(forecast['precip'], 1), True, False, self.uom['GV6'])
-        self.setDriver('GV7', round(forecast['speed_max'], 1), True, False, self.uom['GV7'])
-        self.setDriver('GV8', round(forecast['speed_min'], 1), True, False, self.uom['GV8'])
-
-        self.setDriver('GV19', int(dow), True, False, self.uom['GV19'])
-        self.setDriver('GV16', round(forecast['uv'], 1), True, False, self.uom['GV16'])
-        self.setDriver('GV18', round(forecast['pop'], 1), True, False, self.uom['GV18'])
-        self.setDriver('GV11', forecast['coverage'], True, False, self.uom['GV11'])
-        self.setDriver('GV12', forecast['intensity'], True, False, self.uom['GV12'])
-        self.setDriver('GV13', forecast['weather'], True, False, self.uom['GV13'])
+        self.update_driver('CLIHUM', forecast['rh'])
+        self.update_driver('BARPRES', forecast['pres'])
+        self.update_driver('GV0', forecast['max_temp'])
+        self.update_driver('GV1', forecast['min_temp'])
+        self.update_driver('GV14', forecast['clouds'])
+        self.update_driver('GV4', forecast['wind_spd'])
+        self.update_driver('GV5', forecast['wind_gust_spd'])
+        self.update_driver('GV6', forecast['precip'])
+        self.update_driver('GV19', int(dow))
+        self.update_driver('GV16', forecast['uv'])
+        self.update_driver('GV18', forecast['pop'])
+        # dewpt, snow, snow_depth, wind_dir, vis, moon_phase, ozone, 
+        # pod = part of day d=day, n=night
+        # forecast['weather']['code']
+        #self.setDriver('GV13', forecast['weather'], True, False, self.uom['GV13'])
 
         # Calculate ETo
         #  Temp is in degree C and windspeed is in m/s, we may need to
         #  convert these.
         J = datetime.datetime.fromtimestamp(epoch).timetuple().tm_yday
 
-        Tmin = forecast['temp_min']
-        Tmax = forecast['temp_max']
-        Ws = forecast['speed']
-        if units != 'si':
+        Tmin = forecast['min_temp']
+        Tmax = forecast['max_temp']
+        Ws = forecast['wind_spd']
+        if units != 'metric':
             LOGGER.info('Conversion of temperature/wind speed required')
             Tmin = et3.FtoC(Tmin)
             Tmax = et3.FtoC(Tmax)
@@ -146,6 +132,6 @@ class DailyNode(polyinterface.Node):
         else:
             Ws = et3.kph2ms(Ws)
 
-        et0 = et3.evapotranspriation(Tmax, Tmin, None, Ws, float(elevation), forecast['Hmax'], forecast['Hmin'], latitude, float(plant_type), J)
-        self.setDriver('GV20', round(et0, 2), True, False)
+        et0 = et3.evapotranspriation(Tmax, Tmin, None, Ws, float(elevation), forecast['rh'], forecast['rh'], latitude, float(plant_type), J)
+        update_driver('GV20', round(et0, 2))
         LOGGER.info("ETo = %f %f" % (et0, self.mm2inch(et0)))

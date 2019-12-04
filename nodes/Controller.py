@@ -215,59 +215,13 @@ class Controller(polyinterface.Controller):
         jdata = c.json()
         c.close()
 
-
-        LOGGER.debug('------------  Forecast response --------------')
-        LOGGER.debug(jdata)
-
         day = 1
+        # first day is today, is that OK
         for f_obs in jdata['data']:
             LOGGER.debug('forecast for date ' + f_obs['valid_date'])
             address = 'forecast_' + str(day)
-            #self.nodes[address].update_forecast(self.fcast, self.latitude, self.params.get('Elevation'), self.params.get('Plant Type'), self.units)
+            self.nodes[address].update_forecast(f_obs, float(self.params.get('Elevation')), float(self.params.get('Plant Type')), jdata['lat'])
             day += 1
-
-        """
-        if 'periods' in jdata['response'][0]:
-            for forecast in jdata['response'][0]['periods']:
-                LOGGER.debug(' >>>>   period ' + forecast['dateTimeISO'])
-                #LOGGER.debug(forecast)
-                #LOGGER.debug('              ')
-                self.fcast['temp_max'] = forecast[self.tag['temp_max']]
-                self.fcast['temp_min'] = forecast[self.tag['temp_min']]
-                self.fcast['Hmax'] = forecast[self.tag['humidity_max']]
-                self.fcast['Hmin'] = forecast[self.tag['humidity_min']]
-                self.fcast['pressure'] = float(forecast[self.tag['pressure']])
-                self.fcast['speed'] = float(forecast[self.tag['windspeed']])
-                self.fcast['speed_max'] = float(forecast[self.tag['wind_max']])
-                self.fcast['speed_min'] = float(forecast[self.tag['wind_min']])
-                self.fcast['gust'] = float(forecast[self.tag['gustspeed']])
-                #self.fcast['gust_max'] = float(forecast[self.tag['gust_max']])
-                #self.fcast['gust_min'] = float(forecast[self.tag['gust_min']])
-                self.fcast['dir'] = forecast[self.tag['winddir']]
-                self.fcast['dir_max'] = forecast[self.tag['winddir_max']]
-                self.fcast['dir_min'] = forecast[self.tag['winddir_min']]
-                self.fcast['timestamp'] = forecast[self.tag['timestamp']]
-                self.fcast['pop'] = forecast[self.tag['pop']]
-                self.fcast['precip'] = float(forecast[self.tag['precipitation']])
-                self.fcast['uv'] = forecast['uvi']
-                self.fcast['clouds'] = forecast['sky']
-
-                LOGGER.debug('**>>>>> weatherCoded = ' + forecast['weatherPrimaryCoded'])
-                self.fcast['coverage'] = self.coverage_codes(forecast['weatherPrimaryCoded'].split(':')[0])
-                self.fcast['intensity'] = self.intensity_codes(forecast['weatherPrimaryCoded'].split(':')[1])
-                self.fcast['weather'] = self.weather_codes(forecast['weatherPrimaryCoded'].split(':')[2])
-                LOGGER.debug('>>>  weather = ' + forecast['weatherPrimaryCoded'].split(':')[2])
-                LOGGER.debug('>>>  code = ' + str(self.weather_codes(forecast['weatherPrimaryCoded'].split(':')[2])))
-
-                # look at weatherPrimaryCoded and cloudsCoded and
-                # build the forecast conditions
-
-                #LOGGER.info(self.fcast)
-                # Update the forecast
-                address = 'forecast_' + str(day)
-                self.nodes[address].update_forecast(self.fcast, self.latitude, self.params.get('Elevation'), self.params.get('Plant Type'), self.units)
-                day += 1
-        """
 
 
     def query(self):
