@@ -64,6 +64,12 @@ class Controller(polyinterface.Controller):
             'notice': '',
             },
             {
+            'name': 'Forecast Days',
+            'default': '0',
+            'isRequired': False,
+            'notice': '',
+            },
+            {
             'name': 'Plant Type',
             'default': '0.23',
             'isRequired': False,
@@ -91,6 +97,8 @@ class Controller(polyinterface.Controller):
             self.removeNoticesAll()
             self.configured = True
             self.set_driver_uom(self.params.get('Units'))
+            if self.params.isSet('Forecast Days'):
+                self.discover()
         elif valid:
             LOGGER.debug('-- configuration not changaed, but is valid')
             # is this necessary
@@ -191,22 +199,12 @@ class Controller(polyinterface.Controller):
     def query_forecast(self):
         # daily forecasts
 
-        request = 'http://api.aerisapi.com/forecasts/'
-        # if location looks like a zip code, treat it as such for backwards
-        # compatibility
-        # TODO: handle location entries properly
-        if re.fullmatch(r'\d\d\d\d\d,..', self.params.get('Location')) != None:
-            request += self.params.get('Location')
-        elif re.fullmatch(r'\d\d\d\d\d', self.params.get('Location')) != None:
-            request += self.params.get('Location')
-        else:
-            request += self.params.get('Location')
-
-        request += '?client_id=JGlB9OD1KA1EvzoSkpBmJ'
-        request += '&client_secret=xiZGRDGO61ZP2YZH1YDwVB6tuDMX4Zx3o9yeXDyI'
-        request += '&filter=mdnt2mdnt'
-        request += '&precise'
-        request += '&limit=12'
+        request = 'http://api.weatherbit.io/v2.0/forecast/daily'
+        request += '?' + self.params.get('Location')
+        request += '&key=' + self.params.get('APIkey')
+        request += '&lang=' + self.params.get('Language')
+        request += '&units=' + self.params.get('Units')
+        request += '&days=' + self.params.get('Forecast Days')
 
         LOGGER.debug('request = %s' % request)
 
@@ -222,8 +220,14 @@ class Controller(polyinterface.Controller):
         LOGGER.debug('------------  Forecast response --------------')
         LOGGER.debug(jdata)
 
-        # Records are for each day, midnight to midnight
         day = 1
+        for f_obs in jdata['data']:
+            LOGGER.debug('forecast for date ' + f_obs['valid_date'])
+            address = 'forecast_' + str(day)
+            #self.nodes[address].update_forecast(self.fcast, self.latitude, self.params.get('Elevation'), self.params.get('Plant Type'), self.units)
+            day += 1
+
+        """
         if 'periods' in jdata['response'][0]:
             for forecast in jdata['response'][0]['periods']:
                 LOGGER.debug(' >>>>   period ' + forecast['dateTimeISO'])
@@ -264,6 +268,7 @@ class Controller(polyinterface.Controller):
                 address = 'forecast_' + str(day)
                 self.nodes[address].update_forecast(self.fcast, self.latitude, self.params.get('Elevation'), self.params.get('Plant Type'), self.units)
                 day += 1
+        """
 
 
     def query(self):
@@ -271,11 +276,22 @@ class Controller(polyinterface.Controller):
             self.nodes[node].reportDrivers()
 
     def discover(self, *args, **kwargs):
-        # TODO: This is where we should create the forecast nodes?
-        LOGGER.info("In Discovery...")
+        num_days = int(self.params.get('Forecast Days'))
+        LOGGER.info('Creating nodes for %d days of forecast data' % num_days);
 
-        # TODO: How many forecast days?
-        for day in range(1,14):
+        if num_days < 16:
+            # if less than 16 days should we try to delete extras?
+            for day in range(num_days + 1, 16):
+                address = 'forecast_' + str(day)
+                try:
+                    self.delNode(address)
+                except:
+                    LOGGER.debug('Failed to delete node ' + address)
+
+        if num_days == 0:
+            return
+
+        for day in range(1, num_days):
             address = 'forecast_' + str(day)
             title = 'Forecast ' + str(day)
             try:
@@ -283,6 +299,7 @@ class Controller(polyinterface.Controller):
                 self.addNode(node)
             except:
                 LOGGER.error('Failed to create forecast node ' + title)
+
 
     # Delete the node server from Polyglot
     def delete(self):
@@ -304,6 +321,9 @@ class Controller(polyinterface.Controller):
             LOGGER.debug('All required parameters are set!')
             self.configured = True
             self.set_driver_uom(self.params.get('Units'))
+            if int(self.params.get('Forecast Days')) > 16:
+                addNotice('Number of days of forecast data limited to 16 days', 'forecast')
+                self.params.set('Forcast Days', 16)
         else:
             LOGGER.debug('Configuration required.')
             LOGGER.debug('apikey = ' + self.params.get('APIkey'))
@@ -335,7 +355,7 @@ class Controller(polyinterface.Controller):
             self.uom['GV17'] = 56     # Air Quality
             self.uom['SOLRAD'] = 74   # solar radiation
 
-            for day in range(1,12):
+            for day in range(1,int(self.params.get('Forecast Days'))):
                 address = 'forecast_' + str(day)
                 self.nodes[address].set_driver_uom('metric')
         else:
@@ -360,7 +380,7 @@ class Controller(polyinterface.Controller):
             self.uom['GV17'] = 56     # Air Quality
             self.uom['SOLRAD'] = 74   # solar radiation
 
-            for day in range(1,12):
+            for day in range(1,int(self.params.get('Forecast Days'))):
                 address = 'forecast_' + str(day)
                 self.nodes[address].set_driver_uom('imperial')
 
