@@ -112,7 +112,7 @@ class Controller(polyinterface.Controller):
 
         # Do an initial query to get filled in as soon as possible
         self.query_conditions()
-        #self.query_forecast()
+        self.query_forecast()
 
     def longPoll(self):
         LOGGER.info('longpoll')
@@ -290,7 +290,7 @@ class Controller(polyinterface.Controller):
         if num_days == 0:
             return
 
-        for day in range(1, num_days):
+        for day in range(1, num_days + 1):
             address = 'forecast_' + str(day)
             title = 'Forecast ' + str(day)
             try:
@@ -355,7 +355,7 @@ class Controller(polyinterface.Controller):
             self.uom['GV17'] = 56     # Air Quality
             self.uom['SOLRAD'] = 74   # solar radiation
 
-            for day in range(1,int(self.params.get('Forecast Days'))):
+            for day in range(1,int(self.params.get('Forecast Days')) + 1):
                 address = 'forecast_' + str(day)
                 self.nodes[address].set_driver_uom('metric')
         else:
@@ -380,7 +380,7 @@ class Controller(polyinterface.Controller):
             self.uom['GV17'] = 56     # Air Quality
             self.uom['SOLRAD'] = 74   # solar radiation
 
-            for day in range(1,int(self.params.get('Forecast Days'))):
+            for day in range(1,int(self.params.get('Forecast Days')) + 1):
                 address = 'forecast_' + str(day)
                 self.nodes[address].set_driver_uom('imperial')
 
