@@ -50,6 +50,11 @@ class NSParameters:
                 else:
                     return p['default']
 
+    def isSet(self, name):
+        for p in self.internal:
+            if p['name'] == name:
+                return p['isSet']
+        return False
 
     """
         Send notices for unconfigured parameters that are are marked
