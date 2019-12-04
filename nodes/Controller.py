@@ -342,6 +342,7 @@ class Controller(polyinterface.Controller):
         self.removeNoticesAll()
 
     def set_logging_level(self, level=None):
+        LOGGER.info('set_logging_level: called with' + level)
         if level is None:
             try:
                 level = self.getDriver('GV21')

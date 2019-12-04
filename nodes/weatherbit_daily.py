@@ -24,15 +24,11 @@ class DailyNode(polyinterface.Node):
             {'driver': 'GV1', 'value': 0, 'uom': 4},       # low temp
             {'driver': 'CLIHUM', 'value': 0, 'uom': 22},   # humidity
             {'driver': 'BARPRES', 'value': 0, 'uom': 117}, # pressure
-            {'driver': 'GV11', 'value': 0, 'uom': 25},     # coverage
-            {'driver': 'GV12', 'value': 0, 'uom': 25},     # intensity
-            {'driver': 'GV13', 'value': 0, 'uom': 25},     # weather
+            {'driver': 'GV13', 'value': 0, 'uom': 25},     # conditions
             {'driver': 'GV14', 'value': 0, 'uom': 22},     # clouds
             {'driver': 'GV4', 'value': 0, 'uom': 49},      # wind speed
             {'driver': 'GV5', 'value': 0, 'uom': 49},      # gust speed
             {'driver': 'GV6', 'value': 0, 'uom': 82},      # precipitation
-            {'driver': 'GV7', 'value': 0, 'uom': 49},      # wind speed max
-            {'driver': 'GV8', 'value': 0, 'uom': 49},      # wind speed min
             {'driver': 'GV18', 'value': 0, 'uom': 22},     # pop
             {'driver': 'GV16', 'value': 0, 'uom': 71},     # UV index
             {'driver': 'GV20', 'value': 0, 'uom': 106},    # mm/day
@@ -115,7 +111,7 @@ class DailyNode(polyinterface.Node):
         # dewpt, snow, snow_depth, wind_dir, vis, moon_phase, ozone, 
         # pod = part of day d=day, n=night
         # forecast['weather']['code']
-        #self.setDriver('GV13', forecast['weather'], True, False, self.uom['GV13'])
+        self.update_driver('GV13', forecast['weather']['code'])
 
         # Calculate ETo
         #  Temp is in degree C and windspeed is in m/s, we may need to
@@ -130,8 +126,6 @@ class DailyNode(polyinterface.Node):
             Tmin = et3.FtoC(Tmin)
             Tmax = et3.FtoC(Tmax)
             Ws = et3.mph2ms(Ws)
-        else:
-            Ws = et3.kph2ms(Ws)
 
         et0 = et3.evapotranspriation(Tmax, Tmin, None, Ws, float(elevation), forecast['rh'], forecast['rh'], latitude, float(plant_type), J)
         self.update_driver('GV20', round(et0, 2))
