@@ -141,7 +141,7 @@ class Controller(polyinterface.Controller):
             request += '?' + self.params.get('Location')
 
         request += '&key=' + self.params.get('APIkey')
-        request += '&units=' + self.units
+        request += '&units=' + self.params.get('Units')
 
         LOGGER.debug('request = %s' % request)
 
