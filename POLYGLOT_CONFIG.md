@@ -6,7 +6,6 @@ parameters:
 - APIkey   : Your API ID, needed to authorize connection to the WeatherBit API.
 - Elevation : The elevation, in meters, of the location. Default is 0
 - Forecast Days: The number of days of forecast data to track (0 - 16)
-- Language: What language to return the data in. Default is en
 - Location : Location to get data for.  Can be specified as:
     - lat&lon      Ex: lat=38.123&lon=-78.543
 	- city,state   Ex: city=Raleigh,NC

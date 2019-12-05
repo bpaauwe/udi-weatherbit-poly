@@ -75,12 +75,6 @@ class Controller(polyinterface.Controller):
             'isRequired': False,
             'notice': '',
             },
-            {
-            'name': 'Language',
-            'default': 'en',
-            'isRequired': False,
-            'notice': '',
-            },
             ])
 
         self.poly.onConfig(self.process_config)
@@ -147,7 +141,6 @@ class Controller(polyinterface.Controller):
             request += '?' + self.params.get('Location')
 
         request += '&key=' + self.params.get('APIkey')
-        request += '&lang=' + self.params.get('Language')
         request += '&units=' + self.units
 
         LOGGER.debug('request = %s' % request)
@@ -201,7 +194,6 @@ class Controller(polyinterface.Controller):
         request = 'http://api.weatherbit.io/v2.0/forecast/daily'
         request += '?' + self.params.get('Location')
         request += '&key=' + self.params.get('APIkey')
-        request += '&lang=' + self.params.get('Language')
         request += '&units=' + self.params.get('Units')
         request += '&days=' + self.params.get('Forecast Days')
 
