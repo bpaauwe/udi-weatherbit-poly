@@ -110,8 +110,7 @@ class Controller(polyinterface.Controller):
         self.query_forecast()
 
     def longPoll(self):
-        LOGGER.info('longpoll')
-        #self.query_forecast()
+        self.query_forecast()
 
     def shortPoll(self):
         self.query_conditions()
