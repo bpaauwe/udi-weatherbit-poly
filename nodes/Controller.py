@@ -99,6 +99,7 @@ class Controller(polyinterface.Controller):
 
     def start(self):
         LOGGER.info('Starting node server')
+        self.set_logging_level()
         self.check_params()
         self.discover()
 
