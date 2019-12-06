@@ -106,21 +106,21 @@ class Controller(polyinterface.Controller):
         LOGGER.info('Node server started')
 
         # Do an initial query to get filled in as soon as possible
-        self.query_conditions()
-        self.query_forecast()
+        self.query_conditions(True)
+        self.query_forecast(True)
 
     def longPoll(self):
-        self.query_forecast()
+        self.query_forecast(False)
 
     def shortPoll(self):
-        self.query_conditions()
+        self.query_conditions(False)
 
     # Wrap all the setDriver calls so that we can check that the 
     # value exist first.
-    def update_driver(self, driver, value):
+    def update_driver(self, driver, value, force=False):
         try:
-            self.setDriver(driver, float(value), report=True, force=False, uom=self.uom[driver])
-            #LOGGER.info('setDriver (%s, %f)' %(driver, float(value)))
+            self.setDriver(driver, float(value), True, force, self.uom[driver])
+            LOGGER.info('setDriver (%s, %f)' %(driver, float(value)))
         except:
             LOGGER.debug('Missing data for driver ' + driver)
 
@@ -129,7 +129,7 @@ class Controller(polyinterface.Controller):
         Query the weather service for the current conditions and update
         the current condition node values.
     """
-    def query_conditions(self):
+    def query_conditions(self, force):
 
         # build query URL
         request = 'http://api.weatherbit.io/v2.0/current'
@@ -165,30 +165,30 @@ class Controller(polyinterface.Controller):
 
         ob = jdata['data'][0] # Only use first observation record
 
-        self.update_driver('CLITEMP', ob['temp'])
-        self.update_driver('CLIHUM', ob['rh'])
-        self.update_driver('BARPRES', ob['pres'])
-        self.update_driver('GV4', ob['wind_spd'])
-        self.update_driver('WINDDIR', ob['wind_dir'])
-        self.update_driver('GV15', ob['vis'])
-        self.update_driver('GV6', ob['precip'])
-        self.update_driver('DEWPT', ob['dewpt'])
-        self.update_driver('GV2', ob['app_temp'])
-        self.update_driver('SOLRAD', ob['solar_rad'])
-        self.update_driver('GV16', ob['uv'])
-        self.update_driver('GV17', ob['aqi'])
+        self.update_driver('CLITEMP', ob['temp'], force)
+        self.update_driver('CLIHUM', ob['rh'], force)
+        self.update_driver('BARPRES', ob['pres'], force)
+        self.update_driver('GV4', ob['wind_spd'], force)
+        self.update_driver('WINDDIR', ob['wind_dir'], force)
+        self.update_driver('GV15', ob['vis'], force)
+        self.update_driver('GV6', ob['precip'], force)
+        self.update_driver('DEWPT', ob['dewpt'], force)
+        self.update_driver('GV2', ob['app_temp'], force)
+        self.update_driver('SOLRAD', ob['solar_rad'], force)
+        self.update_driver('GV16', ob['uv'], force)
+        self.update_driver('GV17', ob['aqi'], force)
 
         # Weather conditions:
         #  ob['weather'][code]
         weather = ob['weather']['code']
         LOGGER.debug('**>>> WeatherCoded = ' + weather)
-        self.update_driver('GV13', weather)
+        self.update_driver('GV13', weather, force)
 
         # cloud cover
-        self.update_driver('GV14', ob['clouds'])
+        self.update_driver('GV14', ob['clouds'], force)
 
     # TODO: Move query_forecast to the daily node file
-    def query_forecast(self):
+    def query_forecast(self, force):
         # daily forecasts
 
         request = 'http://api.weatherbit.io/v2.0/forecast/daily'
@@ -346,7 +346,7 @@ class Controller(polyinterface.Controller):
         else:
             level = int(level['value'])
 
-        self.setDriver('GV21', level)
+        self.setDriver('GV21', level, True, True)
 
         LOGGER.info('set_logging_level: Setting log level to %d' % level)
         LOGGER.setLevel(level)
@@ -375,5 +375,6 @@ class Controller(polyinterface.Controller):
             {'driver': 'GV15', 'value': 0, 'uom': 83},     # visibility
             {'driver': 'GV17', 'value': 0, 'uom': 56},     # air quality
             {'driver': 'SOLRAD', 'value': 0, 'uom': 71},   # solar radiataion
+            {'driver': 'GV21', 'value': 0, 'uom': 25},     # log level
             ]
 
