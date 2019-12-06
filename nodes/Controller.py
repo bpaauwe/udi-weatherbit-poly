@@ -308,7 +308,7 @@ class Controller(polyinterface.Controller):
             self.uom['ST'] = 2   # node server status
             self.uom['CLITEMP'] = 17  # temperature
             self.uom['CLIHUM'] = 22   # humidity
-            self.uom['BARPRES'] = 23  # pressure
+            self.uom['BARPRES'] = 117 # pressure (always mb)
             self.uom['WINDDIR'] = 76  # direction
             self.uom['DEWPT'] = 17    # dew point
             self.uom['GV0'] = 17      # max temp

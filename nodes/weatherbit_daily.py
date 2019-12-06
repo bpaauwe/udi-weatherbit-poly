@@ -82,7 +82,7 @@ class DailyNode(polyinterface.Node):
             self.uom['WINDIR'] = 76
         elif units == 'imperial':
             self.units = 'imperial'
-            self.uom['BARPRES'] = 23
+            self.uom['BARPRES'] = 117
             self.uom['GV0'] = 17
             self.uom['GV1'] = 17
             self.uom['GV19'] = 25
