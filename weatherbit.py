@@ -18,7 +18,7 @@ if __name__ == "__main__":
     try:
         polyglot = polyinterface.Interface('WeatherBit')
         polyglot.start()
-        control = Controller(polyglot)
+        control = Controller.Controller(polyglot)
         control.runForever()
     except (KeyboardInterrupt, SystemExit):
         sys.exit(0)

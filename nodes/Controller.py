@@ -23,6 +23,7 @@ import node_funcs
 
 LOGGER = polyinterface.LOGGER
 
+@node_funcs.add_functions_as_methods(node_funcs.functions)
 class Controller(polyinterface.Controller):
     id = 'weather'
     hint = [0,0,0,0]
@@ -111,18 +112,6 @@ class Controller(polyinterface.Controller):
     def shortPoll(self):
         self.query_conditions(False)
 
-    # Wrap all the setDriver calls so that we can check that the 
-    # value exist first.
-    """
-    def update_driver(self, driver, value, force=False, prec=3):
-        try:
-            self.setDriver(driver, round(float(value), prec), True, force, self.uom[driver])
-            LOGGER.info('setDriver (%s, %f)' %(driver, float(value)))
-        except:
-            LOGGER.debug('Missing data for driver ' + driver)
-    """
-
-
     def get_weather_data(self, url_param, extra=None):
         request = 'http://api.weatherbit.io/v2.0/'
         request += url_param
@@ -183,15 +172,13 @@ class Controller(polyinterface.Controller):
         self.update_driver('SOLRAD', ob['solar_rad'], force)
         self.update_driver('GV16', ob['uv'], force, 1)
         self.update_driver('GV17', ob['aqi'], force)
+        self.update_driver('GV14', ob['clouds'], force)
 
         # Weather conditions:
         #  ob['weather'][code]
         weather = ob['weather']['code']
         LOGGER.debug('**>>> WeatherCoded = ' + weather)
         self.update_driver('GV13', weather, force)
-
-        # cloud cover
-        self.update_driver('GV14', ob['clouds'], force)
 
     # TODO: Move query_forecast to the daily node file
     def query_forecast(self, force):
@@ -285,58 +272,6 @@ class Controller(polyinterface.Controller):
         for day in range(1,int(self.params.get('Forecast Days')) + 1):
             address = 'forecast_' + str(day)
             self.nodes[address].set_driver_uom(units)
-        """
-        if units == 'M':
-            self.uom['ST'] = 2   # node server status
-            self.uom['CLITEMP'] = 4   # temperature
-            self.uom['CLIHUM'] = 22   # humidity
-            self.uom['BARPRES'] = 117 # pressure
-            self.uom['WINDDIR'] = 76  # direction
-            self.uom['DEWPT'] = 4     # dew point
-            self.uom['GV0'] = 4       # max temp
-            self.uom['GV1'] = 4       # min temp
-            self.uom['GV2'] = 4       # feels like
-            self.uom['GV4'] = 49      # wind speed
-            self.uom['GV5'] = 49      # wind gusts
-            self.uom['GV6'] = 82      # rain
-            self.uom['GV11'] = 25     # climate coverage
-            self.uom['GV12'] = 25     # climate intensity
-            self.uom['GV13'] = 25     # climate conditions
-            self.uom['GV14'] = 22     # cloud conditions
-            self.uom['GV15'] = 83     # visibility
-            self.uom['GV16'] = 71     # UV index
-            self.uom['GV17'] = 56     # Air Quality
-            self.uom['SOLRAD'] = 74   # solar radiation
-
-            for day in range(1,int(self.params.get('Forecast Days')) + 1):
-                address = 'forecast_' + str(day)
-                self.nodes[address].set_driver_uom('metric')
-        else:
-            self.uom['ST'] = 2   # node server status
-            self.uom['CLITEMP'] = 17  # temperature
-            self.uom['CLIHUM'] = 22   # humidity
-            self.uom['BARPRES'] = 117 # pressure (always mb)
-            self.uom['WINDDIR'] = 76  # direction
-            self.uom['DEWPT'] = 17    # dew point
-            self.uom['GV0'] = 17      # max temp
-            self.uom['GV1'] = 17      # min temp
-            self.uom['GV2'] = 17      # feels like
-            self.uom['GV4'] = 48      # wind speed
-            self.uom['GV5'] = 48      # wind gusts
-            self.uom['GV6'] = 105     # rain
-            self.uom['GV11'] = 25     # climate coverage
-            self.uom['GV12'] = 25     # climate intensity
-            self.uom['GV13'] = 25     # climate conditions
-            self.uom['GV14'] = 22     # cloud conditions
-            self.uom['GV15'] = 116    # visibility
-            self.uom['GV16'] = 71     # UV index
-            self.uom['GV17'] = 56     # Air Quality
-            self.uom['SOLRAD'] = 74   # solar radiation
-
-            for day in range(1,int(self.params.get('Forecast Days')) + 1):
-                address = 'forecast_' + str(day)
-                self.nodes[address].set_driver_uom('imperial')
-        """
 
     def remove_notices_all(self, command):
         self.removeNoticesAll()

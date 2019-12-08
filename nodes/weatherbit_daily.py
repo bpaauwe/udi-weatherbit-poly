@@ -13,12 +13,13 @@ import datetime
 from weather_funcs import weather_codes
 from weather_funcs import et3
 from weather_funcs import uom
+import node_funcs
 
 LOGGER = polyinterface.LOGGER
 
+@node_funcs.add_functions_as_methods(node_funcs.functions)
 class DailyNode(polyinterface.Node):
     id = 'daily'
-    # TODO: add wind speed min/max, pop, winddir min/max
     drivers = [
             {'driver': 'GV19', 'value': 0, 'uom': 25},     # day of week
             {'driver': 'GV0', 'value': 0, 'uom': 4},       # high temp
@@ -68,52 +69,11 @@ class DailyNode(polyinterface.Node):
     def set_driver_uom(self, units):
         self.uom = uom.get_uom(units)
         self.units = units
-        """
-        if units == 'metric':
-            self.units = 'metric'
-            self.uom['BARPRES'] = 117
-            self.uom['GV0'] = 4
-            self.uom['GV1'] = 4
-            self.uom['GV19'] = 25
-            self.uom['GV4'] = 49
-            self.uom['GV5'] = 49
-            self.uom['GV6'] = 82
-            self.uom['GV7'] = 82
-            self.uom['GV8'] = 82
-            self.uom['GV20'] = 107
-            self.uom['GV15'] = 83
-            self.uom['DEWPT'] = 4
-            self.uom['WINDIR'] = 76
-        elif units == 'imperial':
-            self.units = 'imperial'
-            self.uom['BARPRES'] = 117
-            self.uom['GV0'] = 17
-            self.uom['GV1'] = 17
-            self.uom['GV19'] = 25
-            self.uom['GV4'] = 48
-            self.uom['GV5'] = 48
-            self.uom['GV6'] = 105
-            self.uom['GV7'] = 105
-            self.uom['GV8'] = 105
-            self.uom['GV20'] = 106
-            self.uom['GV15'] = 116
-            self.uom['DEWPT'] = 17
-            self.uom['WINDIR'] = 76
-        """
-
 
     def mm2inch(self, mm):
         return mm/25.4
 
 
-    def update_driver(self, driver, value):
-        try:
-            self.setDriver(driver, value, True, False, self.uom[driver])
-        except:
-            LOGGER.debug('Failed to set driver ' + driver + ' to value ' + value)
-
-    '''
-    '''
     def update_forecast(self, forecast, elevation, plant_type, latitude):
 
         epoch = int(forecast['ts'])
@@ -121,7 +81,7 @@ class DailyNode(polyinterface.Node):
         LOGGER.info('Day of week = ' + dow)
 
         self.update_driver('CLIHUM', forecast['rh'])
-        self.update_driver('BARPRES', forecast['pres'])
+        self.update_driver('BARPRES', forecast['pres'], prec=1)
         self.update_driver('DEWPT', forecast['dewpt'])
         self.update_driver('GV0', forecast['max_temp'])
         self.update_driver('GV1', forecast['min_temp'])
@@ -133,12 +93,11 @@ class DailyNode(polyinterface.Node):
         self.update_driver('GV7', forecast['snow'])
         self.update_driver('GV8', forecast['snow_depth'])
         self.update_driver('GV19', int(dow))
-        self.update_driver('GV16', forecast['uv'])
+        self.update_driver('GV16', forecast['uv'], prec=1)
         self.update_driver('GV15', forecast['vis'])
         self.update_driver('GV18', forecast['pop'])
-        self.update_driver('GV10', forecast['ozone'])
-        self.update_driver('GV9', forecast['moon_phase'])
-        # moon_phase, 
+        self.update_driver('GV10', forecast['ozone'], prec=2)
+        self.update_driver('GV9', forecast['moon_phase'], prec=2)
         # pod = part of day d=day, n=night
         # forecast['weather']['code']
         self.update_driver('GV13', forecast['weather']['code'])
