@@ -14,7 +14,7 @@
 def set_uom(units):
     unit_cfg = units.lower()
 
-    if unit_cfg == 'metric' || unit_cfg == "si" || unit_cfg.startswith('m'):
+    if unit_cfg == 'metric' or unit_cfg == 'si' or unit_cfg.startswith('m'):
         uom = {
             'ST': 2,   # node server status
             'CLITEMP': 4,   # temperature

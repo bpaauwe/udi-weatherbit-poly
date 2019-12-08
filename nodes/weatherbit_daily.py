@@ -12,6 +12,7 @@ import time
 import datetime
 from weather_funcs import weather_codes
 from weather_funcs import et3
+from weather_funcs import uom
 
 LOGGER = polyinterface.LOGGER
 
