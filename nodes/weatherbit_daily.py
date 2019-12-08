@@ -65,6 +65,9 @@ class DailyNode(polyinterface.Node):
             }
 
     def set_driver_uom(self, units):
+        self.uom = uom.get_uom(units)
+        self.units = units
+        """
         if units == 'metric':
             self.units = 'metric'
             self.uom['BARPRES'] = 117
@@ -95,6 +98,7 @@ class DailyNode(polyinterface.Node):
             self.uom['GV15'] = 116
             self.uom['DEWPT'] = 17
             self.uom['WINDIR'] = 76
+        """
 
 
     def mm2inch(self, mm):
@@ -146,7 +150,7 @@ class DailyNode(polyinterface.Node):
         Tmin = forecast['min_temp']
         Tmax = forecast['max_temp']
         Ws = forecast['wind_spd']
-        if self.units != 'metric':
+        if self.units != 'M':
             LOGGER.info('Conversion of temperature/wind speed required')
             Tmin = et3.FtoC(Tmin)
             Tmax = et3.FtoC(Tmax)

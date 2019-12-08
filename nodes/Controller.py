@@ -31,13 +31,8 @@ class Controller(polyinterface.Controller):
         self.name = 'WeatherBit Weather'
         self.address = 'weather'
         self.primary = self.address
-        self.units = 'M'
         self.configured = False
-        self.latitude = 0
-        self.longitude = 0
-        self.fcast = {}
         self.uom = {}
-        self.tag = {}
 
         self.params = ns_parameters.NSParameters([{
             'name': 'APIkey',
@@ -152,9 +147,6 @@ class Controller(polyinterface.Controller):
     """
         Query the weather service for the current conditions and update
         the current condition node values.
-
-        TODO: separate out the http request code to a function that
-        takes the URL (or part of the url) and returns the data.
     """
     def query_conditions(self, force):
 
@@ -286,6 +278,11 @@ class Controller(polyinterface.Controller):
     # Set the uom dictionary based on current user units preference
     def set_driver_uom(self, units):
         LOGGER.info('New Configure driver units to ' + units)
+        self.uom =  uom.get_uom(units)
+        for day in range(1,int(self.params.get('Forecast Days')) + 1):
+            address = 'forecast_' + str(day)
+            self.nodes[address].set_driver_uom(units)
+        """
         if units == 'M':
             self.uom['ST'] = 2   # node server status
             self.uom['CLITEMP'] = 4   # temperature
@@ -336,6 +333,7 @@ class Controller(polyinterface.Controller):
             for day in range(1,int(self.params.get('Forecast Days')) + 1):
                 address = 'forecast_' + str(day)
                 self.nodes[address].set_driver_uom('imperial')
+        """
 
     def remove_notices_all(self, command):
         self.removeNoticesAll()
