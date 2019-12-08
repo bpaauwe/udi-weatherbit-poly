@@ -112,9 +112,9 @@ class Controller(polyinterface.Controller):
 
     # Wrap all the setDriver calls so that we can check that the 
     # value exist first.
-    def update_driver(self, driver, value, force=False):
+    def update_driver(self, driver, value, force=False, prec=3):
         try:
-            self.setDriver(driver, float(value), True, force, self.uom[driver])
+            self.setDriver(driver, round(float(value), prec), True, force, self.uom[driver])
             LOGGER.info('setDriver (%s, %f)' %(driver, float(value)))
         except:
             LOGGER.debug('Missing data for driver ' + driver)
@@ -178,7 +178,7 @@ class Controller(polyinterface.Controller):
         self.update_driver('DEWPT', ob['dewpt'], force)
         self.update_driver('GV2', ob['app_temp'], force)
         self.update_driver('SOLRAD', ob['solar_rad'], force)
-        self.update_driver('GV16', ob['uv'], force)
+        self.update_driver('GV16', ob['uv'], force, 1)
         self.update_driver('GV17', ob['aqi'], force)
 
         # Weather conditions:
