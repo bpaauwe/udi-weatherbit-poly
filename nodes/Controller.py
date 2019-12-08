@@ -19,6 +19,7 @@ import json
 from nodes import weatherbit_daily
 from weather_funcs import *
 import ns_parameters
+import node_funcs
 
 LOGGER = polyinterface.LOGGER
 
@@ -112,12 +113,14 @@ class Controller(polyinterface.Controller):
 
     # Wrap all the setDriver calls so that we can check that the 
     # value exist first.
+    """
     def update_driver(self, driver, value, force=False, prec=3):
         try:
             self.setDriver(driver, round(float(value), prec), True, force, self.uom[driver])
             LOGGER.info('setDriver (%s, %f)' %(driver, float(value)))
         except:
             LOGGER.debug('Missing data for driver ' + driver)
+    """
 
 
     def get_weather_data(self, url_param, extra=None):
