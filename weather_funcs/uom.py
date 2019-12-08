@@ -11,7 +11,7 @@
 #  condition driver types
 
 
-def set_uom(units):
+def get_uom(units):
     unit_cfg = units.lower()
 
     if unit_cfg == 'metric' or unit_cfg == 'si' or unit_cfg.startswith('m'):
