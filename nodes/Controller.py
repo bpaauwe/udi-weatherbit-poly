@@ -125,34 +125,45 @@ class Controller(polyinterface.Controller):
             LOGGER.debug('Missing data for driver ' + driver)
 
 
-    """
-        Query the weather service for the current conditions and update
-        the current condition node values.
-    """
-    def query_conditions(self, force):
-
-        # build query URL
-        request = 'http://api.weatherbit.io/v2.0/current'
-        if re.fullmatch(r'\d\d\d\d\d,..', self.params.get('Location')) != None:
-            request += '?' + self.params.get('Location')
-        elif re.fullmatch(r'\d\d\d\d\d', self.params.get('Location')) != None:
-            request += '?' + self.params.get('Location')
-        else:
-            request += '?' + self.params.get('Location')
-
+    def get_weather_data(self, url_param, extra=None):
+        request = 'http://api.weatherbit.io/v2.0/'
+        request += url_param
+        request += '?' + self.params.get('Location')
         request += '&key=' + self.params.get('APIkey')
         request += '&units=' + self.params.get('Units')
 
+        if extra != None:
+            request += extra
+
         LOGGER.debug('request = %s' % request)
+
+        try:
+            c = requests.get(request)
+            jdata = c.json()
+            c.close()
+
+            LOGGER.debug(jdata)
+        except:
+            LOGGER.error('HTTP request failed for ' + url_param)
+            jdata = {}
+
+        return jdata
+
+    """
+        Query the weather service for the current conditions and update
+        the current condition node values.
+
+        TODO: separate out the http request code to a function that
+        takes the URL (or part of the url) and returns the data.
+    """
+    def query_conditions(self, force):
+
 
         if not self.configured:
             LOGGER.info('Skipping connection because we aren\'t configured yet.')
             return
 
-        c = requests.get(request)
-        jdata = c.json()
-        c.close()
-        LOGGER.debug(jdata)
+        jdata = self.get_weather_data('current')
 
         # Should we check that jdata actually has something in it?
         if jdata == None:
@@ -191,21 +202,17 @@ class Controller(polyinterface.Controller):
     def query_forecast(self, force):
         # daily forecasts
 
-        request = 'http://api.weatherbit.io/v2.0/forecast/daily'
-        request += '?' + self.params.get('Location')
-        request += '&key=' + self.params.get('APIkey')
-        request += '&units=' + self.params.get('Units')
-        request += '&days=' + self.params.get('Forecast Days')
+        days = '&days=' + self.params.get('Forecast Days')
 
-        LOGGER.debug('request = %s' % request)
+        jdata = self.get_weather_data('forecast/daily', days)
 
         if not self.configured:
             LOGGER.info('Skipping connection because we aren\'t configured yet.')
             return
 
-        c = requests.get(request)
-        jdata = c.json()
-        c.close()
+        if 'data' not in jdata:
+            LOGGER.error('No response object in query response.')
+            return
 
         day = 1
         # first day is today, is that OK
