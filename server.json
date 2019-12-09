@@ -1,5 +1,5 @@
 {
-    "name": "WeatherBit.io",
+    "name": "WeatherBit",
     "docs": "https;//github.com/bpaauwe/udi-weatherbit-poly/README.md",
     "type": "python3",
     "executable": "weatherbit.py",
