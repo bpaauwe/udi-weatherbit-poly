@@ -279,7 +279,8 @@ class Controller(polyinterface.Controller):
     def set_logging_level(self, level=None):
         if level is None:
             try:
-                level = self.getDriver('GV21')
+                #level = self.getDriver('GV21')
+                level = self.get_saved_log_level()
             except:
                 LOGGER.error('set_logging_level: get GV21 value failed.')
 
@@ -289,7 +290,8 @@ class Controller(polyinterface.Controller):
         else:
             level = int(level['value'])
 
-        self.setDriver('GV21', level, True, True)
+        #self.setDriver('GV21', level, True, True)
+        self.save_log_level(level)
 
         LOGGER.info('set_logging_level: Setting log level to %d' % level)
         LOGGER.setLevel(level)

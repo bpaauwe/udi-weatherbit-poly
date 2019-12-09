@@ -26,4 +26,17 @@ def update_driver(self, driver, value, force=False, prec=3):
     except:
         LOGGER.warning('Missing data for driver ' + driver)
 
-functions = (update_driver, )
+def get_saved_log_level(self):
+    if 'customData' in self.polyConfig:
+        if 'level' in self.polyConfig['customData']:
+            return self.polyConfig['customData']['level']
+
+    return 0
+
+def save_log_level(self, level):
+    level_data = {
+            'level': level,
+            }
+    self.poly.saveCustomData(level_data)
+
+functions = (update_driver, get_saved_log_level, save_log_level)

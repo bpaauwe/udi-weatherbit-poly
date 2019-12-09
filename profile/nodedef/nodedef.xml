@@ -17,7 +17,6 @@
       <st id="SOLRAD" editor="SOLARRAD" />
       <st id="GV16" editor="UV" />
       <st id="GV17" editor="AQI" />
-	  <st id="GV21" editor="DEBUG" />
     </sts>
     <cmds>
       <sends />
