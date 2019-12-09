@@ -1,6 +1,6 @@
 {
     "name": "WeatherBit.io",
-    "docs": "https;//github.com/bpaauwe/udi-weatherbit-poly/README.md
+    "docs": "https;//github.com/bpaauwe/udi-weatherbit-poly/README.md",
     "type": "python3",
     "executable": "weatherbit.py",
     "install": "install.sh",
