@@ -7,7 +7,7 @@
     "install_cloud": "install_cloud.sh",
     "description": "Add weather data to the ISY994",
     "notice": "For testing purposes only",
-    "shortPoll": "60",
+    "shortPoll": "300",
     "longPoll": "600",
     "profile_version": "1.0.0",
     "credits": [ {
