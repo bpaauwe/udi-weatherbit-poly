@@ -320,7 +320,7 @@ class Controller(polyinterface.Controller):
             {'driver': 'GV15', 'value': 0, 'uom': 83},     # visibility
             {'driver': 'GV16', 'value': 0, 'uom': 71},     # uv
             {'driver': 'GV17', 'value': 0, 'uom': 56},     # air quality
-            {'driver': 'SOLRAD', 'value': 0, 'uom': 71},   # solar radiataion
+            {'driver': 'SOLRAD', 'value': 0, 'uom': 74},   # solar radiataion
             {'driver': 'GV21', 'value': 0, 'uom': 25},     # log level
             ]
 
