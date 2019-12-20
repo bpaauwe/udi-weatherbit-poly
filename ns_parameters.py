@@ -105,7 +105,7 @@ class NSParameters:
     """
     def update_from_polyglot(self, config):
         changed = False
-        vaid = True
+        valid = True
 
         if 'customParams' in config:
             for p in self.internal:
