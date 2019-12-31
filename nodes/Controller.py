@@ -186,6 +186,9 @@ class Controller(polyinterface.Controller):
 
         days = '&days=' + self.params.get('Forecast Days')
 
+        if days == 0:  # skip if no forecast days defined.
+            return
+
         jdata = self.get_weather_data('forecast/daily', days)
 
         if not self.configured:
@@ -221,9 +224,6 @@ class Controller(polyinterface.Controller):
                     self.delNode(address)
                 except:
                     LOGGER.debug('Failed to delete node ' + address)
-
-        if num_days == 0:
-            return
 
         for day in range(1, num_days + 1):
             address = 'forecast_' + str(day)
