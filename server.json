@@ -13,8 +13,8 @@
     "credits": [ {
 	"title": "WeatherBit Weather: A node server for weather data",
     	"author": "Bob Paauwe",
-    	"version": "1.0.1",
-    	"date": "December 18, 2019",
+    	"version": "1.0.3",
+    	"date": "December 31, 2019",
     	"source": "https://github.com/bpaauwe/udi-weatherbit-poly",
 	"license": "https://github.com/bpaauwe/udi-weatherbit-poly/LICENSE"
 	} ]

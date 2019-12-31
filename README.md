@@ -71,6 +71,11 @@ The nodeserver keeps track of the version number and when a profile rebuild is n
 
 # Release Notes
 
+- 1.0.3 12/31/2019
+   - Fix bug when forecast days is set to zero.
+- 1.0.2 12/19/2019
+   - Fix bug that prevented custom parameter changes from taking immediate
+     effect.
 - 1.0.1 12/18/2019
    - Use correct UOM (74) for solar radiation
 - 1.0.0 12/08/2019
