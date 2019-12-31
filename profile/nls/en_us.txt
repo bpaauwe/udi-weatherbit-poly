@@ -166,6 +166,7 @@ EN_CCCONDITION-221 = ragged thunderstorm
 EN_CCCONDITION-230 = thunderstorm with light drizzle
 EN_CCCONDITION-231 = thunderstorm with drizzle
 EN_CCCONDITION-232 = thunderstorm with heavy drizzle
+EN_CCCONDITION-233 = thunderstorm with hail
 EN_CCCONDITION-300 = light intensity drizzle
 EN_CCCONDITION-301 = drizzle
 EN_CCCONDITION-302 = heavy intensity drizzle
