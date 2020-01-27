@@ -17,7 +17,11 @@
 
 """
 
-import polyinterface
+try:
+    import polyinterface
+except ImportError:
+    import pgc_interface as polyinterface
+
 
 LOGGER = polyinterface.LOGGER
 
