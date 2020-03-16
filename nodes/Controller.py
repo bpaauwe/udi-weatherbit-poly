@@ -199,7 +199,7 @@ class Controller(polyinterface.Controller):
             LOGGER.error('No response object in query response.')
             return
 
-        day = 1
+        day = 0
         # first day is today, is that OK
         for f_obs in jdata['data']:
             LOGGER.debug('forecast for date ' + f_obs['valid_date'])
@@ -218,14 +218,14 @@ class Controller(polyinterface.Controller):
 
         if num_days < 16:
             # if less than 16 days should we try to delete extras?
-            for day in range(num_days + 1, 16):
+            for day in range(num_days, 16):
                 address = 'forecast_' + str(day)
                 try:
                     self.delNode(address)
                 except:
                     LOGGER.debug('Failed to delete node ' + address)
 
-        for day in range(1, num_days + 1):
+        for day in range(0, num_days):
             address = 'forecast_' + str(day)
             title = 'Forecast ' + str(day)
             try:
@@ -269,7 +269,7 @@ class Controller(polyinterface.Controller):
     def set_driver_uom(self, units):
         LOGGER.info('New Configure driver units to ' + units)
         self.uom =  uom.get_uom(units)
-        for day in range(1,int(self.params.get('Forecast Days')) + 1):
+        for day in range(0,int(self.params.get('Forecast Days'))):
             address = 'forecast_' + str(day)
             self.nodes[address].set_driver_uom(units)
 
