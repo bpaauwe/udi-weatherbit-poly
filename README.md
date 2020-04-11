@@ -71,6 +71,8 @@ The nodeserver keeps track of the version number and when a profile rebuild is n
 
 # Release Notes
 
+- 1.0.5 04/10/2020
+   - Current conditions report rain rate not rain accumulation
 - 1.0.4 03/16/2020
    - Change first forecast address to forecast_0 to match other weather node servers.
 - 1.0.3 12/31/2019
