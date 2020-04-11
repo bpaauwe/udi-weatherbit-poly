@@ -22,6 +22,7 @@ def get_uom(units):
             'BARPRES': 117, # pressure
             'WINDDIR': 76,  # direction
             'DEWPT': 4,     # dew point
+            'RAINRT': 46,   # rain rate
             'SOLRAD': 74,   # solar radiation
             'GV0': 4,       # max temp
             'GV1': 4,       # min temp
@@ -52,13 +53,14 @@ def get_uom(units):
             'BARPRES': 117, # pressure
             'WINDDIR': 76,  # direction
             'DEWPT': 4,     # dew point
+            'RAINRT': 24,   # rain rate
             'SOLRAD': 74,   # solar radiation
             'GV0': 4,       # max temp
             'GV1': 4,       # min temp
             'GV2': 4,       # feels like
             'GV4': 48,      # wind speed
             'GV5': 48,      # wind gusts
-            'GV6': 105,     # rain
+            'GV6': 82,      # rain
             'GV7': 82,      # snow
             'GV8': 82,      # snow depth
             'GV9': 56,      # moon phase
@@ -82,6 +84,7 @@ def get_uom(units):
             'BARPRES': 117, # pressure (always mb)
             'WINDDIR': 76,  # direction
             'DEWPT': 17,    # dew point
+            'RAINRT': 24,   # rain rate
             'SOLRAD': 74,   # solar radiation
             'GV0': 17,      # max temp
             'GV1': 17,      # min temp

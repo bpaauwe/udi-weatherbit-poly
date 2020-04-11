@@ -314,7 +314,7 @@ class Controller(polyinterface.Controller):
             {'driver': 'WINDDIR', 'value': 0, 'uom': 76},  # direction
             {'driver': 'GV4', 'value': 0, 'uom': 49},      # wind speed
             {'driver': 'GV2', 'value': 0, 'uom': 4},       # feels like
-            {'driver': 'GV6', 'value': 0, 'uom': 82},      # rain
+            {'driver': 'RAINRT', 'value': 0, 'uom': 46},   # rain
             {'driver': 'GV13', 'value': 0, 'uom': 25},     # climate conditions
             {'driver': 'GV14', 'value': 0, 'uom': 22},     # cloud conditions
             {'driver': 'GV15', 'value': 0, 'uom': 83},     # visibility

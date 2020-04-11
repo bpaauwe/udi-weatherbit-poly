@@ -13,7 +13,7 @@
       <st id="GV13" editor="CONDITIONS" />
       <st id="GV14" editor="PERCENT" />
       <st id="GV2" editor="TEMPERATURE" />
-      <st id="GV6" editor="RAIN" />
+      <st id="RAINRT" editor="RAINRT" />
       <st id="SOLRAD" editor="SOLARRAD" />
       <st id="GV16" editor="UV" />
       <st id="GV17" editor="AQI" />

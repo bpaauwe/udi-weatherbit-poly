@@ -26,8 +26,9 @@
         <range uom="105" min="0" max="20000" prec="3" />
         <range uom="82"  min="0" max="10000" prec="1" />
     </editor>
-    <editor id="inhr">
+    <editor id="RAINRT">
         <range uom="24" min="0" max="2000" prec="3" />
+        <range uom="46" min="0" max="2000" prec="3" />
     </editor>
     <editor id="METERS">
         <range uom="38" min="0" max="200000" prec="0" />
