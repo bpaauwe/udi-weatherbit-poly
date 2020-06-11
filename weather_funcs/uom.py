@@ -43,7 +43,7 @@ def get_uom(units):
             'GV17': 56,     # Air Quality
             'GV18': 22,     # chance of precipitation
             'GV19': 25,     # day of week
-            'GV20': 107,    # ETo
+            'GV20': 106,    # ETo
         }
     elif unit_cfg == 'uk':
         uom = {
@@ -74,7 +74,7 @@ def get_uom(units):
             'GV17': 56,     # Air Quality
             'GV18': 22,     # chance of precipitation
             'GV19': 25,     # day of week
-            'GV20': 107,    # ETo
+            'GV20': 106,    # ETo
         }
     else:
         uom = {

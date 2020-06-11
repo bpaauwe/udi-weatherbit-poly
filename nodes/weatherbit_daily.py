@@ -58,7 +58,7 @@ class DailyNode(polyinterface.Node):
             'GV7': 82,
             'GV8': 82,
             'GV16': 71,
-            'GV20': 107,
+            'GV20': 106,
             'GV15': 83,
             'GV18': 22,
             'GV10': 56,
