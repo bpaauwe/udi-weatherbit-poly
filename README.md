@@ -71,6 +71,8 @@ The nodeserver keeps track of the version number and when a profile rebuild is n
 
 # Release Notes
 
+- 1.0.7 06/11/2020
+   - Correrct UOM for ETo.
 - 1.0.6 04/11/2020
    - Snow depth was incorrectly renamed to rain today, rename it back.
 - 1.0.5 04/10/2020
