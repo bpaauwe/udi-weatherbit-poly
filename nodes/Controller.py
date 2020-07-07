@@ -177,7 +177,7 @@ class Controller(polyinterface.Controller):
         # Weather conditions:
         #  ob['weather'][code]
         weather = ob['weather']['code']
-        LOGGER.debug('**>>> WeatherCoded = ' + weather)
+        LOGGER.debug('**>>> WeatherCoded = ' + str(weather))
         self.update_driver('GV13', weather, force)
 
     # TODO: Move query_forecast to the daily node file
