@@ -71,6 +71,8 @@ The nodeserver keeps track of the version number and when a profile rebuild is n
 
 # Release Notes
 
+- 1.0.8 07/07/2020
+   - Convert int to string for display in debug message.
 - 1.0.7 06/11/2020
    - Correrct UOM for ETo.
 - 1.0.6 04/11/2020
