@@ -47,6 +47,43 @@ The settings for this node are:
 
 To get an API key, register at www.weatherbit.io
 
+## Node substitution variables
+### Current condition node
+ * sys.node.[address].ST      (Node sever online)
+ * sys.node.[address].CLITEMP (current temperature)
+ * sys.node.[address].CLIHUM  (current humidity)
+ * sys.node.[address].DEWPT   (current dew point)
+ * sys.node.[address].BARPRES (current barometric pressure)
+ * sys.node.[address].GV4     (current wind speed)
+ * sys.node.[address].WINDDIR (current wind direction )
+ * sys.node.[address].GV15    (current visibility)
+ * sys.node.[address].SOLRAD  (current solar radiation)
+ * sys.node.[address].GV13    (current weather conditions)
+ * sys.node.[address].GV14    (current percent cloud coverage)
+ * sys.node.[address].RAINRT  (current precipitation rate)
+ * sys.node.[address].GV2     (current feels like temperature)
+ * sys.node.[address].GV16    (current UV index)
+ * sys.node.[address].GV17    (current air quality)
+
+### Forecast node
+ * sys.node.[address].CLIHUM  (forecasted humidity)
+ * sys.node.[address].BARPRES (forecasted barometric pressure)
+ * sys.node.[address].DEWPT   (forecasted dew point)
+ * sys.node.[address].RAINRT  (forecasted rain rate)
+ * sys.node.[address].GV18    (forecasted chance of precipitation)
+ * sys.node.[address].GV19    (day of week forecast is for)
+ * sys.node.[address].GV0     (forecasted high temperature)
+ * sys.node.[address].GV1     (forecasted low temperature)
+ * sys.node.[address].GV13    (forecasted weather conditions)
+ * sys.node.[address].GV14    (forecasted percent cloud coverage)
+ * sys.node.[address].GV6     (forecasted precipitation accumulation)
+ * sys.node.[address].GV7     (forecasted snow accumulation)
+ * sys.node.[address].GV8     (forecasted snow depth)
+ * sys.node.[address].GV16    (forecasted UV index)
+ * sys.node.[address].GV10    (forecasted Ozone)
+ * sys.node.[address].GV15    (forecasted Visibility)
+ * sys.node.[address].GV9     (forecasted Moon phase)
+ * sys.node.[address].GV20    (calculated ETo for the day)
 
 
 ## Requirements
