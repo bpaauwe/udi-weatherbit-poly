@@ -9,7 +9,7 @@
     "notice": "For testing purposes only",
     "shortPoll": "300",
     "longPoll": "600",
-    "profile_version": "1.0.3",
+    "profile_version": "1.0.4",
     "credits": [ {
 	"title": "WeatherBit Weather: A node server for weather data",
     	"author": "Bob Paauwe",

@@ -7,7 +7,7 @@
     </editor>
     <editor id="TEMPERATURE">
         <range uom="17" min="-50" max="150" step="1" prec="1" />
-        <range uom="4" min="-10" max="100" step="1" prec="1" />
+        <range uom="4" min="-50" max="100" step="1" prec="1" />
     </editor>
     <editor id="PERCENT">
         <range uom="22" min="0" max="100" prec="0" />
